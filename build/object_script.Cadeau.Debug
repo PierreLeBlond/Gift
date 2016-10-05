@@ -1,0 +1,12 @@
+INPUT(
+./debug/main.o
+./debug/mainwindow.o
+./debug/createpage.o
+./debug/generatepage.o
+./debug/user.o
+./debug/graph.o
+./debug/node.o
+./debug/moc_mainwindow.o
+./debug/moc_createpage.o
+./debug/moc_generatepage.o
+);

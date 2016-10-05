@@ -1,0 +1,12 @@
+INPUT(
+./release/main.o
+./release/mainwindow.o
+./release/createpage.o
+./release/generatepage.o
+./release/user.o
+./release/graph.o
+./release/node.o
+./release/moc_mainwindow.o
+./release/moc_createpage.o
+./release/moc_generatepage.o
+);
