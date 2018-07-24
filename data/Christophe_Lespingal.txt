@@ -1,7 +1,6 @@
 Pierre_Lespingal
 Julie_Lespingal
 Florence_Lespingal
-Camille_Betizaux
 Annie_Betizaux
 Marion_Betizaux
 Claudine_Joulin
@@ -10,3 +9,4 @@ Patrick_Joulin
 Jean-Marie_Betizaux
 Magali_Capdelaire
 Paul_Betizaux
+Camille_Betizaux
