@@ -1,10 +1,11 @@
-#include "user.h"
 #include <fstream>
-#include <QMessageBox>
+#include <iostream>
+
+#include "user.h"
 
 User::User(std::string user)
 {
-    m_name = user;
+    _name = user;
     std::string path = "../data/" + user + ".txt";
     std::ifstream f(path.c_str());
 
@@ -13,16 +14,11 @@ User::User(std::string user)
         std::string line;
         while(getline(f, line))
         {
-            m_relative.append(line);
+            _relative.push_back(line);
         }
     }
     else
-        QMessageBox::information(0, "error", "utilisateur introuvable");
-}
-
-User::~User()
-{
-    
+        std::cerr << "utilisateur introuvable" << std::endl;
 }
 
 void User::removeChild()
@@ -33,14 +29,14 @@ void User::removeChild()
 bool User::isRelative(std::string user)
 {
     int i = 0;
-    while(i < m_relative.size() && m_relative[i] != user)
+    while(i < _relative.size() && _relative[i] != user)
     {
         i++;
     }
-    return i < m_relative.size();
+    return i < _relative.size();
 }
 
 std::string User::getName()
 {
-    return m_name;
+    return _name;
 }

@@ -55,8 +55,6 @@ void GeneratePage::nextStep()
     }
 }
 
-
-
 Graph* GeneratePage::startGraph()
 {
     Graph* g = new Graph;

@@ -1,23 +1,24 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <vector>
+
 #include "user.h"
-#include <QVector>
 
 class Node
 {
 public:
     Node(User *user);
-    void createEdges(QVector<std::string> users);
+    void createEdges(std::vector<std::string> users);
     User* getUser();
-    void setChilds(QVector<std::string> childs);
-    QVector<std::string> getChilds();
+    void setChilds(std::vector<std::string> childs);
+    std::vector<std::string> getChilds();
     void killChild(std::string onlyChild);
     void killOneChild(std::string child);
 
 private:
-    User* m_user;
-    QVector<std::string> m_child;
+    User* _user;
+    std::vector<std::string> _child;
 
 };
 

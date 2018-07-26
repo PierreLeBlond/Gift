@@ -1,32 +1,28 @@
-#include "graph.h"
-#include "node.h"
+#include <vector>
 #include <fstream>
+#include <iostream>
 #include <cstdlib>
 #include <time.h>
-#include <QMessageBox>
+
+#include "graph.h"
+#include "node.h"
 
 Graph::Graph()
 {
-    m_nbVertex = 0;
-
-}
-
-Graph::~Graph()
-{
-
+    _nbVertex = 0;
 }
 
 void Graph::addUser(User* user)
 {
     Node* node = new Node(user);
-    node->createEdges(m_users);
-    m_nodes.append(node);
-    m_nbVertex++;
+    node->createEdges(_users);
+    _nodes.push_back(node);
+    _nbVertex++;
 }
 
 void Graph::addNode(Node* node)
 {
-    m_nodes.append(node);
+    _nodes.push_back(node);
 }
 
 void Graph::createEdges()
@@ -34,17 +30,17 @@ void Graph::createEdges()
 
 }
 
-std::string Graph::createMatche(QVector<std::string> save)
+std::string Graph::createMatche(std::vector<std::string> save)
 {
     srand(time(NULL));
     Node* node = findNode();
-    QVector<std::string> vect;
-    QVector<std::string> childs = node->getChilds();
+    std::vector<std::string> vect;
+    std::vector<std::string> childs = node->getChilds();
     for(int i = 0;i < childs.size();i++)
     {
-        if(!hasItem(save, childs[i]) && hasItem(m_available, childs[i]))
+        if(!hasItem(save, childs[i]) && hasItem(_available, childs[i]))
         {
-            vect.append(childs[i]);
+            vect.push_back(childs[i]);
         }
     }
     if(vect.size() == 0)
@@ -65,14 +61,14 @@ std::string Graph::createMatche(QVector<std::string> save)
 
 void Graph::exportGraph()
 {
-    QMessageBox::information(0, "info", "Job's done !");
-    std::ofstream f("../result/2017.txt");
+    std::cout << "Job's done !" << std::endl;
+    std::ofstream f("../result/2018.txt");
 
-    for(int i = 0;i < m_nodes.size();i++)
+    for(int i = 0;i < _nodes.size();i++)
     {
-        f << m_nodes[i]->getUser()->getName();
+        f << _nodes[i]->getUser()->getName();
         f << "offre à : ";
-        QVector<std::string> vect = m_nodes[i]->getChilds();
+        std::vector<std::string> vect = _nodes[i]->getChilds();
         for(int j = 0;j< vect.size();j++)
         {
             if(vect[j] != "")
@@ -84,11 +80,11 @@ void Graph::exportGraph()
 
 void Graph::killParents(Node* childNode, Node* onlyParent)
 {
-    for(int i = 0;i < m_nodes.size();i++)
+    for(int i = 0;i < _nodes.size();i++)
     {
-        if(m_nodes[i] != childNode && m_nodes[i] != onlyParent)
+        if(_nodes[i] != childNode && _nodes[i] != onlyParent)
         {
-            m_nodes[i]->killOneChild(childNode->getUser()->getName());
+            _nodes[i]->killOneChild(childNode->getUser()->getName());
         }
     }
 }
@@ -96,15 +92,15 @@ void Graph::killParents(Node* childNode, Node* onlyParent)
 Node* Graph::findNodeByName(std::string name)
 {
     int i(0);
-    while(i < m_nodes.size() && m_nodes[i]->getUser()->getName() != name)
+    while(i < _nodes.size() && _nodes[i]->getUser()->getName() != name)
         i++;
-    if(i < m_nodes.size())
-        return m_nodes[i];
+    if(i < _nodes.size())
+        return _nodes[i];
     else
         return NULL;
 }
 
-bool Graph::hasItem(QVector<std::string> vect, std::string item)
+bool Graph::hasItem(std::vector<std::string> vect, std::string item)
 {
     int i = 0;
     while(i < vect.size() && (vect[i] == "" || vect[i] != item))
@@ -115,70 +111,70 @@ bool Graph::hasItem(QVector<std::string> vect, std::string item)
 Node* Graph::findNode()
 {
     int j = 0;
-    Node* node = m_nodes[0];
-    while(hasItem(m_alreadyTaken, m_nodes[j]->getUser()->getName()))
+    Node* node = _nodes[0];
+    while(hasItem(_alreadyTaken, _nodes[j]->getUser()->getName()))
     {
         j++;
-        node = m_nodes[j];
+        node = _nodes[j];
     }
-    for(int i = j;i < m_nodes.size();i++)
+    for(int i = j;i < _nodes.size();i++)
     {
-        if(node->getChilds().size() > m_nodes[i]->getChilds().size() && !(hasItem(m_alreadyTaken, m_nodes[i]->getUser()->getName())))
-            node = m_nodes[i];
+        if(node->getChilds().size() > _nodes[i]->getChilds().size() && !(hasItem(_alreadyTaken, _nodes[i]->getUser()->getName())))
+            node = _nodes[i];
     }
     return node;
 }
 
-void Graph::setUsers(QVector<std::string> users)
+void Graph::setUsers(std::vector<std::string> users)
 {
     for(int i = 0;i < users.size();i++)
     {
-        m_users.append(users[i]);
+        _users.push_back(users[i]);
     }
 }
 
-void Graph::setAvailable(QVector<std::string> users)
+void Graph::setAvailable(std::vector<std::string> users)
 {
     for(int i = 0;i < users.size();i++)
     {
-        m_available.append(users[i]);
+        _available.push_back(users[i]);
     }
 }
 
-void Graph::setAlreadyTaken(QVector<std::string> users)
+void Graph::setAlreadyTaken(std::vector<std::string> users)
 {
     for(int i = 0;i < users.size();i++)
     {
-        m_alreadyTaken.append(users[i]);
+        _alreadyTaken.push_back(users[i]);
     }
 }
 
 void Graph::noMoreAvailable(std::string item)
 {
-    for(int i = 0;i < m_available.size();i++)
+    for(int i = 0;i < _available.size();i++)
     {
-        if(m_available[i] == item)
-            m_available[i] = "";
+        if(_available[i] == item)
+            _available[i] = "";
     }
 }
 
 void Graph::addTaken(std::string taken)
 {
-    m_alreadyTaken.append(taken);
+    _alreadyTaken.push_back(taken);
 }
 
 Graph* Graph::copie()
 {
     Graph* g = new Graph;
-    g->setUsers(m_users);
-    g->setAvailable(m_available);
-    g->setAlreadyTaken(m_alreadyTaken);
-    for(int i = 0;i < m_nodes.size();i++)
+    g->setUsers(_users);
+    g->setAvailable(_available);
+    g->setAlreadyTaken(_alreadyTaken);
+    for(int i = 0;i < _nodes.size();i++)
     {
-        Node* node = new Node(m_nodes[i]->getUser());
-        node->setChilds(m_nodes[i]->getChilds());
+        Node* node = new Node(_nodes[i]->getUser());
+        node->setChilds(_nodes[i]->getChilds());
         g->addNode(node);
-        m_nbVertex++;
+        _nbVertex++;
     }
     return g;
 }

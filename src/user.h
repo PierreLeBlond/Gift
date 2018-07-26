@@ -2,22 +2,20 @@
 #define USER_H
 
 #include <string>
-#include <QVector>
+#include <vector>
 
 class User
 {
 public:
     User(std::string user);
-    ~User();
     void removeChild();
     bool isRelative(std::string user);
     std::string getName();
-    
 
 private:
-    std::string m_name;
+    std::string _name;
 
-    QVector<std::string > m_relative;
+    std::vector<std::string > _relative;
 };
 
 #endif // USER_H
